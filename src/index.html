@@ -13,11 +13,9 @@
 <body>
     <section class="relative p-6">
         <h1 class="font-bold text-4xl">Data Table</h1>
-        <div>
-            <button id="addBtn"
-                class="font-bold btn bg-blue-300 text-white border-blue-300 float-right mb-3 shadow-lg">Add
-                item</button>
-        </div>
+        <button id="addBtn"
+            class="font-bold btn bg-blue-300 text-white border-blue-300 block ml-auto mb-3 shadow-lg">Add
+            item</button>
         <div
             class="fixed hidden shadow-xl bg-white border-2 border-gray-400 top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 p-8 md:visible popup-form w-3/5 h-3/5">
             <h2 class="font-bold text-3xl">Post your content</h2>
@@ -38,21 +36,22 @@
                     class="btn btn-cancel float-right bg-red-600 text-white">Close</button>
             </form>
         </div>
-        <table class="table-auto w-full">
-            <thead class="bg-gray-300 border-2 border-gray-200">
-                <tr>
-                    <th>ID</th>
-                    <th>Created At</th>
-                    <th>Title</th>
-                    <th>Image</th>
-                    <th>Content</th>
-                </tr>
-            </thead>
-            <tbody id="list">
+        <div class="overflow-auto rounded-lg shadow hidden md:block">
+            <table class="table-auto w-full">
+                <thead class="bg-gray-300 border-2 border-gray-200">
+                    <tr>
+                        <th>ID</th>
+                        <th>Created At</th>
+                        <th>Title</th>
+                        <th>Image</th>
+                        <th>Content</th>
+                    </tr>
+                </thead>
+                <tbody id="list">
 
-            </tbody>
-        </table>
-
+                </tbody>
+            </table>
+        </div>
     </section>
     <script type="text/javascript" src="./helpers.js"></script>
     <script type="text/javascript" src="./index.js"></script>

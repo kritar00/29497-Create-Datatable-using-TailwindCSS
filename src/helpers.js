@@ -24,8 +24,8 @@ function getDate() {
     today = MM + '/' + dd + '/' + yyyy + ' ' + HH + ":" + mm;
     return today
 }
-const dt = new Date();
-const padL = (nr, len = 2, chr = `0`) => `${nr}`.padStart(2, chr);
+// const dt = new Date();
+// const padL = (nr, len = 2, chr = `0`) => `${nr}`.padStart(2, chr);
 
-console.log(`${padL(dt.getMonth() + 1)}/${padL(dt.getDate())}/${dt.getFullYear()} ${padL(dt.getHours())}:${padL(dt.getMinutes())}:${padL(dt.getSeconds())}`
-);
+// console.log(`${padL(dt.getMonth() + 1)}/${padL(dt.getDate())}/${dt.getFullYear()} ${padL(dt.getHours())}:${padL(dt.getMinutes())}:${padL(dt.getSeconds())}`
+// );
