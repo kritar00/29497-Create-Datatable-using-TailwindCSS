@@ -69,9 +69,8 @@ async function submitControl(event) {
             image: this.elements['image'].value,
             content: this.elements['content'].value
         });
-
-        console.log(id);
         await editAtApi(id, obj)
+        id = null
         this.reset()
     }
 }
