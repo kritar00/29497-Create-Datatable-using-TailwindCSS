@@ -51,26 +51,19 @@ document.querySelector('.form-container').addEventListener('submit', submitContr
 //Control POST and PUT
 async function submitControl(event) {
     event.preventDefault()
-    if (id === null) {
-        let obj = JSON.stringify({
-            id: "",
-            createdAt: getDate(),
-            title: this.elements['title'].value,
-            image: this.elements['image'].value,
-            content: this.elements['content'].value
-        });
-        await postData(obj)
-    }
-    else {
-        let obj = JSON.stringify({
-            id: id,
-            createdAt: getDate(),
-            title: this.elements['title'].value,
-            image: this.elements['image'].value,
-            content: this.elements['content'].value
-        });
+    let obj = JSON.stringify({
+        id: id || "",
+        createdAt: getDate(),
+        title: this.elements['title'].value,
+        image: this.elements['image'].value,
+        content: this.elements['content'].value
+    });
+    if (id) {
         await editAtApi(id, obj)
         id = null
+    }
+    else {
+        await postData(obj)
     }
     this.reset()
 }
