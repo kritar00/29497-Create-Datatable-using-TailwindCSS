@@ -1,3 +1,5 @@
+import getDate from "./helpers.js"
+
 let list = document.getElementById("list")
 let titleInput = document.getElementById('titleInput')
 let imageInput = document.getElementById('imageInput')
@@ -24,7 +26,6 @@ async function displayData(props) {
         list.innerHTML = productItem;
     })
 }
-console.log(id);
 getData()
 //GET method
 async function getData(id) {
@@ -59,7 +60,6 @@ async function submitControl(event) {
             content: this.elements['content'].value
         });
         await postData(obj)
-        this.reset()
     }
     else {
         let obj = JSON.stringify({
@@ -71,12 +71,11 @@ async function submitControl(event) {
         });
         await editAtApi(id, obj)
         id = null
-        this.reset()
     }
+    this.reset()
 }
 //POST method
 async function postData(obj) {
-    console.log(this);
     const http = new XMLHttpRequest();
     http.open('POST', url);
     http.responseType = 'json'
@@ -85,7 +84,6 @@ async function postData(obj) {
         if (this.readyState === 4) {
             if (this.status === 201) {
                 getData()
-                console.log('Item added')
             }
         }
     }
@@ -102,12 +100,12 @@ async function editAtApi(id, obj) {
             if (this.status === 200) {
                 popup.style.display = 'none'
                 getData()
-                console.log('Item edited')
             }
         }
     }
     http.send(obj);
 }
+//DELETE method
 async function deleteAtApi(id) {
     const http = new XMLHttpRequest();
     http.open('DELETE', `${url}/${id}`);
@@ -116,7 +114,6 @@ async function deleteAtApi(id) {
             if (this.status === 200) {
                 getData()
                 id = null
-                console.log('Item deleted')
             }
         }
     }
@@ -135,7 +132,7 @@ async function controlItem(event) {
     }
 }
 list.addEventListener('click', controlItem)
-tableHeaders = document.getElementsByTagName('th')
+let tableHeaders = document.getElementsByTagName('th')
 for (let i = 0; i < tableHeaders.length; i++) {
     tableHeaders[i].classList.add('text-left', 'p-3', 'text-sm', 'font-semibold', 'tracking-wide')
 }
