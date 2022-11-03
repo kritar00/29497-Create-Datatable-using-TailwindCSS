@@ -5,17 +5,6 @@ let contentInput = document.getElementById('contentInput')
 let popup = document.querySelector('.popup-form')
 let url = 'https://617b71c2d842cf001711bed9.mockapi.io/api/v1/blogs'
 let id = null
-// let imageLink = ''
-// let content = ''
-// titleInput.addEventListener('input', function (e) {
-//     title = e.target.value
-// })
-// imageInput.addEventListener('input', function (e) {
-//     imageLink = e.target.value
-// })
-// contentInput.addEventListener('input', function (e) {
-//     content = e.target.value
-// })
 
 async function displayData(props) {
     let productItem = '';
