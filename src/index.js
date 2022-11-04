@@ -9,7 +9,7 @@ let list = document.getElementById("list")
 let url = 'https://617b71c2d842cf001711bed9.mockapi.io/api/v1/blogs'
 let id = null
 
-async function displayData(props) {
+function displayData(props) {
     let productItem = '';
     props.forEach(function (props, index) {
         let { id, title, content, createdAt, image } = props;
@@ -30,7 +30,7 @@ async function displayData(props) {
 getData()
 //GET method
 async function getData() {
-    await apiCall("GET", url).then((data) => {
+    apiCall("GET", url).then((data) => {
         displayData(data);
     }).catch(function (err) {
         console.log(err);
@@ -47,7 +47,7 @@ async function submitControl(event) {
         content: this.elements['content'].value
     });
     if (id) {
-        await apiCall("PUT", `${url}/${id}`, obj).then((data) => {
+        apiCall("PUT", `${url}/${id}`, obj).then((data) => {
             getData()
             popup.style.display = 'none'
         }).catch(function (err) {
@@ -56,7 +56,7 @@ async function submitControl(event) {
         id = null
     }
     else {
-        await apiCall("POST", url, obj).then((data) => {
+        apiCall("POST", url, obj).then((data) => {
             getData()
         }).catch(function (err) {
             console.log(err);
@@ -68,18 +68,23 @@ async function submitControl(event) {
 async function controlItem(event) {
     if (event.target.classList.contains('remove-item')) {
         id = event.target.dataset.id
-        await apiCall("DELETE", `${url}/${id}`).then((data) => {
+        apiCall("DELETE", `${url}/${id}`).then((data) => {
             getData()
+
+            id = null
+        }).catch(function (err) {
+            console.log(err);
         })
-        id = null
     }
     else if (event.target.classList.contains('edit-item')) {
         id = event.target.dataset.id
         popup.style.display = 'block'
-        await apiCall("GET", `${url}/${id}`).then((data) => {
+        apiCall("GET", `${url}/${id}`).then((data) => {
             titleInput.value = data.title
             imageInput.value = data.image
             contentInput.value = data.content
+        }).catch(function (err) {
+            console.log(err);
         })
     }
 }
