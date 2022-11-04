@@ -6,26 +6,31 @@ let imageInput = document.getElementById('imageInput')
 let contentInput = document.getElementById('contentInput')
 let popup = document.querySelector('.popup-form')
 let list = document.getElementById("list")
+const pagination_element = document.getElementById('pagination')
 let url = 'https://617b71c2d842cf001711bed9.mockapi.io/api/v1/blogs'
 let id = null
+let current_page = 1
+let rows = 5
+let start = 0
+let end = rows
 
 function displayData(props) {
     let productItem = '';
-    props.forEach(function (props, index) {
-        let { id, title, content, createdAt, image } = props;
-        productItem += ` 
+    props.map(function (prop, index) {
+        if (index >= start && index < end)
+            productItem += ` 
             <tr class="item-wrapper odd:bg-white even:bg-stone-200">
-            <td class="w-12 whitespace-nowrap text-blue-500 font-bold hover:underline">${id}</td>
-            <td class="w-52 whitespace-nowrap">${createdAt}</td>
-            <td class="whitespace-nowrap overflow-hidden max-w-sm">${title}</td>
-            <td class="w-16 whitespace-nowrap"><img src="${image}"></td>
-            <td class="whitespace-nowrap">${content}
-            <button data-id=${id} class="float-right remove-item"><i class="uil uil-times pointer-events-none text-3xl"></i></button>
-            <button data-id=${id} class="float-right edit-item"><i class="uil uil-edit-alt pointer-events-none text-3xl"></i></button>
+            <td class="w-12 whitespace-nowrap text-blue-500 font-bold hover:underline">${prop.id}</td>
+            <td class="w-52 whitespace-nowrap">${prop.createdAt}</td>
+            <td class="whitespace-nowrap overflow-hidden max-w-sm">${prop.title}</td>
+            <td class="w-16 whitespace-nowrap"><img src="${prop.image}"></td>
+            <td class="whitespace-nowrap overflow-hidden">${prop.content}
+            <button data-id=${prop.id} class="float-right remove-item"><i class="uil uil-times pointer-events-none text-3xl"></i></button>
+            <button data-id=${prop.id} class="float-right edit-item"><i class="uil uil-edit-alt pointer-events-none text-3xl"></i></button>
             </td>
             </tr> `
-        list.innerHTML = productItem;
     })
+    list.innerHTML = productItem;
 }
 getData()
 //GET method
