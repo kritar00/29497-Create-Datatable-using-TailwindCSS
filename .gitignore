@@ -3,4 +3,4 @@ package.json
 /css/output.css
 tailwind.config.cjs
 tailwwind.config.js
-node_modules
+/node_modules
