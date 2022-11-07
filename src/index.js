@@ -13,7 +13,9 @@ let current_page = 1
 let rows = 5
 let start = 0
 let end = rows
-
+let total
+const btnNext = document.querySelector('.btn-next')
+const btnPrev = document.querySelector('.btn-prev')
 function displayData(props) {
     let productItem = '';
     props.map(function (prop, index) {
@@ -32,14 +34,59 @@ function displayData(props) {
     })
     list.innerHTML = productItem;
 }
+
 getData()
 //GET method
 async function getData() {
     apiCall("GET", url).then((data) => {
         displayData(data);
+        pagination(data, total = Math.ceil(data.length / rows))
+        pageShift(data)
     }).catch(function (err) {
         console.log(err);
     })
+}
+//Control Pagination
+function pagination(props, total) {
+    btnNext.addEventListener('click', () => {
+        current_page++;
+        if (current_page > total) {
+            current_page = total
+        }
+        start = (current_page - 1) * rows
+        end = current_page * rows
+        displayData(props)
+    })
+    btnPrev.addEventListener('click', () => {
+        current_page--;
+        if (current_page <= 1) {
+            current_page = 1
+        }
+        start = (current_page - 1) * rows
+        end = current_page * rows
+        displayData(props)
+    })
+    let page = ''
+    page += `<li class="hover:bg-violet-700 active:bg-violet-500 focus:outline-none focus:ring focus:ring-violet-300 px-2 page"><a>${1}</a></li>`
+    for (let i = 2; i <= total; i++) {
+        page += `<li class="hover:bg-violet-600 focus:outline-none focus:ring focus:ring-violet-300 px-2 page"><a>${i}</a></li>`
+    }
+    document.getElementById('page-number').innerHTML = page
+
+}
+
+function pageShift(props) {
+    let pageNumber = document.querySelectorAll('.page')
+    console.log(pageNumber);
+    for (let i = 0; i < pageNumber.length; i++) {
+        pageNumber[i].addEventListener('click', () => {
+            let value = i + 1
+            current_page = value
+            start = (current_page - 1) * rows
+            end = current_page * rows
+            displayData(props)
+        })
+    }
 }
 //Control POST and PUT
 async function submitControl(event) {
