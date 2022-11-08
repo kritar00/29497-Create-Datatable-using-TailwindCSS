@@ -7,4 +7,10 @@
     padding: 12px;
     border-radius: 12px;
   }
+  .active {
+    background-color: aqua;
+  }
+  html {
+    height: 100%;
+  }
 }

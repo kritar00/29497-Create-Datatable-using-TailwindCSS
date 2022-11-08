@@ -14,6 +14,7 @@ let rows = 5
 let start = 0
 let end = rows
 let total
+let select = document.getElementById('page-select')
 const btnNext = document.querySelector('.btn-next')
 const btnPrev = document.querySelector('.btn-prev')
 function displayData(props) {
@@ -24,7 +25,7 @@ function displayData(props) {
             <tr class="item-wrapper odd:bg-white even:bg-stone-200">
             <td class="w-12 whitespace-nowrap text-blue-500 font-bold hover:underline">${prop.id}</td>
             <td class="w-52 whitespace-nowrap">${prop.createdAt}</td>
-            <td class="whitespace-nowrap overflow-hidden max-w-sm">${prop.title}</td>
+            <td class="whitespace-nowrap overflow-hidden w-5">${prop.title}</td>
             <td class="w-16 whitespace-nowrap"><img src="${prop.image}"></td>
             <td class="whitespace-nowrap overflow-hidden">${prop.content}
             <button data-id=${prop.id} class="float-right remove-item"><i class="uil uil-times pointer-events-none text-3xl"></i></button>
@@ -48,11 +49,15 @@ async function getData() {
 }
 //Control Pagination
 function pagination(props, total) {
+    displayNumOfPages(total)
     btnNext.addEventListener('click', () => {
         current_page++;
         if (current_page > total) {
             current_page = total
         }
+        if (current_page === total)
+            btnNext.classList.add('opacity-50')
+        btnPrev.classList.remove('opacity-50')
         start = (current_page - 1) * rows
         end = current_page * rows
         displayData(props)
@@ -62,19 +67,34 @@ function pagination(props, total) {
         if (current_page <= 1) {
             current_page = 1
         }
+        if (current_page === 1)
+            btnPrev.classList.add('opacity-50')
+        btnNext.classList.remove('opacity-50')
         start = (current_page - 1) * rows
         end = current_page * rows
         displayData(props)
     })
+
+    select.addEventListener('change', () => {
+        current_page = 1
+        rows = select.value
+        total = Math.ceil(props.length / rows)
+        start = (current_page - 1) * rows
+        end = current_page * rows
+        displayNumOfPages(total)
+        displayData(props)
+        pageShift(props)
+    })
+
+}
+function displayNumOfPages(total) {
     let page = ''
     page += `<li class="hover:bg-violet-700 active:bg-violet-500 focus:outline-none focus:ring focus:ring-violet-300 px-2 page"><a>${1}</a></li>`
     for (let i = 2; i <= total; i++) {
         page += `<li class="hover:bg-violet-600 focus:outline-none focus:ring focus:ring-violet-300 px-2 page"><a>${i}</a></li>`
     }
     document.getElementById('page-number').innerHTML = page
-
 }
-
 function pageShift(props) {
     let pageNumber = document.querySelectorAll('.page')
     console.log(pageNumber);
@@ -82,6 +102,18 @@ function pageShift(props) {
         pageNumber[i].addEventListener('click', () => {
             let value = i + 1
             current_page = value
+            if (current_page > 1 && current_page < total) {
+                btnPrev.classList.remove('opacity-50')
+                btnNext.classList.remove('opacity-50')
+            }
+            if (current_page === 1) {
+                btnPrev.classList.add('opacity-50')
+                btnNext.classList.remove('opacity-50')
+            }
+            if (current_page === total) {
+                btnNext.classList.add('opacity-50')
+                btnPrev.classList.remove('opacity-50')
+            }
             start = (current_page - 1) * rows
             end = current_page * rows
             displayData(props)

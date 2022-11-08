@@ -10,7 +10,7 @@
     <title>Document</title>
 </head>
 
-<body>
+<body class="h-full">
     <section class="relative p-6">
         <h1 class="font-bold text-4xl">Data Table</h1>
         <button id="addBtn"
@@ -37,7 +37,7 @@
             </form>
         </div>
         <div class="overflow-auto rounded-lg shadow">
-            <table class="table-auto w-full">
+            <table class="table w-full max-h-">
                 <thead class="bg-gray-300 border-2 border-gray-200">
                     <tr>
                         <th>ID</th>
@@ -51,15 +51,21 @@
 
                 </tbody>
             </table>
-            <div class="pagenumbers" id="pagination">
-                <ul class="cursor-pointer flex items-center justify-center">
-                    <li class="btn-prev uil uil-angle-left-b"></li>
-                    <div class="page-number flex" id="page-number"></div>
-                    <li class="btn-next uil uil-angle-right-b"></li>
-                </ul>
-            </div>
         </div>
+
     </section>
+    <div class="pagenumbers space-x-4 flex justify-center items-center mx-auto" id="pagination">
+        <ul class="cursor-pointer flex items-center justify-center">
+            <li class="btn-prev opacity-50 uil uil-angle-left-b"></li>
+            <div class="page-number flex" id="page-number"></div>
+            <li class="btn-next uil uil-angle-right-b"></li>
+        </ul>
+        <label for="number-of-page">Number of pages</label>
+        <select name="number-of-page" class="border-solid rounded-lg border border-stone-700" id="page-select">
+            <option value="5">5</option>
+            <option value="10">10</option>
+        </select>
+    </div>
     <script type="module" src="./index.js"></script>
 </body>
 
