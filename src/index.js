@@ -58,9 +58,10 @@ async function getData() {
         console.log(err);
     })
 }
-function setStartAndEnd(currentPage) {
+function setStartAndEnd(props, currentPage) {
     start = (currentPage - 1) * rows
     end = currentPage * rows
+    displayData(props)
 }
 //Control Pagination
 function pagination(props, totalPage) {
@@ -69,15 +70,13 @@ function pagination(props, totalPage) {
         if (currentPage < totalPage) {
             currentPage++;
         }
-        setStartAndEnd(currentPage)
-        displayData(props)
+        setStartAndEnd(props, currentPage)
     })
     btnPrev.addEventListener('click', () => {
         if (currentPage > 1) {
             currentPage--;
         }
-        setStartAndEnd(currentPage)
-        displayData(props)
+        setStartAndEnd(props, currentPage)
     })
 
     select.addEventListener('change', () => {
@@ -86,8 +85,7 @@ function pagination(props, totalPage) {
         total = Math.ceil(props.length / rows)
         displayNumOfPages(total)
         pageShift(props)
-        setStartAndEnd(currentPage)
-        displayData(props)
+        setStartAndEnd(props, currentPage)
     })
 
 }
@@ -104,8 +102,7 @@ function pageShift(props) {
         pageNumber[i].addEventListener('click', () => {
             let value = i + 1
             currentPage = value
-            setStartAndEnd(currentPage)
-            displayData(props)
+            setStartAndEnd(props, currentPage)
         })
     }
 }
