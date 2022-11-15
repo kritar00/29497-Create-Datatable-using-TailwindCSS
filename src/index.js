@@ -6,10 +6,9 @@ let imageInput = document.getElementById('imageInput')
 let contentInput = document.getElementById('contentInput')
 let popup = document.querySelector('.popup-form')
 let list = document.getElementById("list")
-const pagination_element = document.getElementById('pagination')
 let url = 'https://617b71c2d842cf001711bed9.mockapi.io/api/v1/blogs'
 let id = null
-let current_page = 1
+let currentPage = 1
 let rows = 5
 let start = 0
 let end = rows
@@ -34,6 +33,18 @@ function displayData(props) {
             </tr> `
     })
     list.innerHTML = productItem;
+    if (currentPage > 1 && currentPage < total) {
+        btnPrev.classList.remove('opacity-50')
+        btnNext.classList.remove('opacity-50')
+    }
+    if (currentPage === total) {
+        btnPrev.classList.remove('opacity-50')
+        btnNext.classList.add('opacity-50')
+    }
+    if (currentPage === 1) {
+        btnPrev.classList.add('opacity-50')
+        btnNext.classList.remove('opacity-50')
+    }
 }
 
 getData()
@@ -47,75 +58,53 @@ async function getData() {
         console.log(err);
     })
 }
+function setStartAndEnd(currentPage) {
+    start = (currentPage - 1) * rows
+    end = currentPage * rows
+}
 //Control Pagination
-function pagination(props, total) {
-    displayNumOfPages(total)
+function pagination(props, totalPage) {
+    displayNumOfPages(totalPage)
     btnNext.addEventListener('click', () => {
-        current_page++;
-        if (current_page > total) {
-            current_page = total
+        if (currentPage < totalPage) {
+            currentPage++;
         }
-        if (current_page === total)
-            btnNext.classList.add('opacity-50')
-        btnPrev.classList.remove('opacity-50')
-        start = (current_page - 1) * rows
-        end = current_page * rows
+        setStartAndEnd(currentPage)
         displayData(props)
     })
     btnPrev.addEventListener('click', () => {
-        current_page--;
-        if (current_page <= 1) {
-            current_page = 1
+        if (currentPage > 1) {
+            currentPage--;
         }
-        if (current_page === 1)
-            btnPrev.classList.add('opacity-50')
-        btnNext.classList.remove('opacity-50')
-        start = (current_page - 1) * rows
-        end = current_page * rows
+        setStartAndEnd(currentPage)
         displayData(props)
     })
 
     select.addEventListener('change', () => {
-        current_page = 1
+        currentPage = 1
         rows = select.value
         total = Math.ceil(props.length / rows)
-        start = (current_page - 1) * rows
-        end = current_page * rows
         displayNumOfPages(total)
-        displayData(props)
         pageShift(props)
+        setStartAndEnd(currentPage)
+        displayData(props)
     })
 
 }
 function displayNumOfPages(total) {
     let page = ''
-    page += `<li class="hover:bg-violet-700 active:bg-violet-500 focus:outline-none focus:ring focus:ring-violet-300 px-2 page"><a>${1}</a></li>`
-    for (let i = 2; i <= total; i++) {
+    for (let i = 1; i <= total; i++) {
         page += `<li class="hover:bg-violet-600 focus:outline-none focus:ring focus:ring-violet-300 px-2 page"><a>${i}</a></li>`
     }
     document.getElementById('page-number').innerHTML = page
 }
 function pageShift(props) {
     let pageNumber = document.querySelectorAll('.page')
-    console.log(pageNumber);
     for (let i = 0; i < pageNumber.length; i++) {
         pageNumber[i].addEventListener('click', () => {
             let value = i + 1
-            current_page = value
-            if (current_page > 1 && current_page < total) {
-                btnPrev.classList.remove('opacity-50')
-                btnNext.classList.remove('opacity-50')
-            }
-            if (current_page === 1) {
-                btnPrev.classList.add('opacity-50')
-                btnNext.classList.remove('opacity-50')
-            }
-            if (current_page === total) {
-                btnNext.classList.add('opacity-50')
-                btnPrev.classList.remove('opacity-50')
-            }
-            start = (current_page - 1) * rows
-            end = current_page * rows
+            currentPage = value
+            setStartAndEnd(currentPage)
             displayData(props)
         })
     }
